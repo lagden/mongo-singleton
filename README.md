@@ -29,8 +29,8 @@ $ npm i -S @tadashi/mongo-singleton
 - MONGO_DB
 - MONGO_USER
 - MONGO_PASS
-- MONGO_AUTHSOURCE: authSource
-- MONGO_POOL_SIZE: poolSize = 10
+- MONGO_AUTHSOURCE
+- MONGO_POOL_SIZE = 10
 
 
 ## Usage
