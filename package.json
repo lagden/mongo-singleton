@@ -1,0 +1,40 @@
+{
+  "name": "@tadashi/mongo-singleton",
+  "version": "1.0.0",
+  "description": "Simplifying MongoDB",
+  "main": "index.js",
+  "files": [
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "report": "nyc report --reporter=text-lcov | coveralls",
+    "pretest": "xo",
+    "test": "ava"
+  },
+  "keywords": [
+    "mongo",
+    "conn",
+    "collection",
+    "singleton"
+  ],
+  "author": "Thiago Lagden",
+  "license": "MIT",
+  "engines": {
+    "node": ">=8.9.1"
+  },
+  "peerDependencies": {
+    "mongodb": "3.2.5"
+  },
+  "devDependencies": {
+    "ava": "1.4.1",
+    "mongodb-memory-server": "5.1.2",
+    "xo": "0.24.0"
+  },
+  "xo": {
+    "envs": [
+      "node"
+    ],
+    "semicolon": false
+  }
+}
