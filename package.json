@@ -24,7 +24,7 @@
     "node": ">=8.9.1"
   },
   "peerDependencies": {
-    "mongodb": "3.2.5"
+    "mongodb": ">=3.2.5"
   },
   "devDependencies": {
     "ava": "2.2.0",
