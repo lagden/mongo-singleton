@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "report": "nyc report --reporter=text-lcov | coveralls",
-    "pretest": "xo",
+    "pretest": "npx xo",
     "test": "ava"
   },
   "keywords": [
@@ -28,8 +28,7 @@
   },
   "devDependencies": {
     "ava": "2.2.0",
-    "mongodb-memory-server": "5.1.5",
-    "xo": "0.24.0"
+    "mongodb-memory-server": "5.1.5"
   },
   "xo": {
     "envs": [
