@@ -1,3 +1,5 @@
+/* eslint capitalized-comments: 0 */
+
 'use strict'
 
 const {MongoClient, ObjectID} = require('mongodb')
@@ -30,12 +32,13 @@ function _collection(db, collectionName) {
 	})
 }
 
-async function conn(...args) {
-	const [
+async function conn(args = {}) {
+	const {
 		url = MONGO_CONN,
 		user = MONGO_USER,
-		password = MONGO_PASS
-	] = args
+		password = MONGO_PASS,
+		options = {}
+	} = args
 
 	if (mongoSingleton[CLIENT_KEY]) {
 		return mongoSingleton[CLIENT_KEY]
@@ -44,7 +47,9 @@ async function conn(...args) {
 	const mongoOptions = {
 		poolSize,
 		authSource,
-		useNewUrlParser: true
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		...options
 	}
 
 	if (user && password) {

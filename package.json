@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/mongo-singleton",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Simplifying MongoDB",
   "main": "index.js",
   "files": [
@@ -28,7 +28,8 @@
   },
   "devDependencies": {
     "ava": "2.2.0",
-    "mongodb-memory-server": "5.1.9"
+    "mongodb-memory-server": "5.2.0",
+    "xo": "0.24.0"
   },
   "xo": {
     "envs": [
