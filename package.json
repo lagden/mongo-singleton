@@ -27,9 +27,9 @@
     "mongodb": ">=3.2.5"
   },
   "devDependencies": {
-    "ava": "2.4.0",
-    "mongodb-memory-server": "6.0.1",
-    "xo": "0.25.3"
+    "ava": "3.7.0",
+    "mongodb-memory-server": "6.5.2",
+    "xo": "0.29.1"
   },
   "xo": {
     "envs": [

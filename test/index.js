@@ -2,9 +2,9 @@
 
 'use strict'
 
-import test from 'ava'
-import {MongoMemoryServer} from 'mongodb-memory-server'
-import Mongo from '..'
+const test = require('ava')
+const {MongoMemoryServer} = require('mongodb-memory-server')
+const Mongo = require('..')
 
 const mongod = new MongoMemoryServer({
 	binary: {
@@ -34,9 +34,9 @@ test('db', async t => {
 		collections.push(_collections(client, database.name))
 	}
 
-	const collectionsName = ['system.version', 'system.sessions', 'startup_log']
+	const collectionsName = new Set(['system.version', 'system.sessions', 'startup_log'])
 	for await (const [collection] of collections) {
-		t.true(collectionsName.includes(collection.s.namespace.collection))
+		t.true(collectionsName.has(collection.s.namespace.collection))
 	}
 
 	t.true(Array.isArray(databases))
