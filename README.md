@@ -1,14 +1,14 @@
 # Mongo Singleton
 
 [![NPM version][npm-img]][npm]
-[![Build Status][ci-img]][ci]
+[![Node.js CI][ci-img]][ci]
 [![XO code style][xo-img]][xo]
 
 
 [npm-img]:         https://img.shields.io/npm/v/@tadashi/mongo-singleton.svg
 [npm]:             https://www.npmjs.com/package/@tadashi/mongo-singleton
-[ci-img]:          https://travis-ci.org/lagden/mongo-singleton.svg
-[ci]:              https://travis-ci.org/lagden/mongo-singleton
+[ci-img]:          https://github.com/lagden/mongo-singleton/workflows/Node.js%20CI/badge.svg
+[ci]:              https://github.com/lagden/mongo-singleton/actions?query=workflow%3A%22Node.js+CI%22
 [xo-img]:          https://img.shields.io/badge/code_style-XO-5ed9c7.svg
 [xo]:              https://github.com/sindresorhus/xo
 

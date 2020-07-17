@@ -1,12 +1,12 @@
-/* eslint capitalized-comments: 0 */
-
 'use strict'
 
 const {MongoClient, ObjectID} = require('mongodb')
 
-ObjectID.prototype.valueOf = function () {
+function valueOf() {
 	return this.toString()
 }
+
+ObjectID.prototype.valueOf = valueOf
 
 const {
 	MONGO_CONN,

@@ -6,11 +6,13 @@ const test = require('ava')
 const {MongoMemoryServer} = require('mongodb-memory-server')
 const Mongo = require('..')
 
-const mongod = new MongoMemoryServer({
-	binary: {
-		version: '4.0.6'
-	}
-})
+// const mongod = new MongoMemoryServer({
+// 	binary: {
+// 		version: '4.0.6'
+// 	}
+// })
+
+const mongod = new MongoMemoryServer()
 
 test.after(async () => {
 	await mongod.stop()
