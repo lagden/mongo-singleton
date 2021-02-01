@@ -24,7 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - run: npm ci
-			- run: npm i mongodb
+      - run: npm i mongodb
       - run: npm run coverage
         env:
           CI: true
