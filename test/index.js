@@ -49,7 +49,7 @@ test('collection', async t => {
 	const mongoConn = await mongod.getUri()
 	const mongoDB = await mongod.getDbName()
 	await Mongo.conn({url: mongoConn})
-	const collection = await Mongo.collection('auth', mongoDB)
+	const collection = await Mongo.collection('auth', {dbName: mongoDB})
 	t.is(collection.dbName, mongoDB)
 	t.is(collection.collectionName, 'auth')
 })

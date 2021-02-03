@@ -48,15 +48,31 @@ Name        | Type                 | Default           | Description
 url         | string               | MONGO_CONN        | [See the manual](https://docs.mongodb.com/manual/reference/connection-string/)
 user        | string               | MONGO_USER        | Database user
 password    | string               | MONGO_PASS        | Database password
-options     | object               | {}                | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/mongoclientoptions.html)
+options     | object               | {}                | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#.connect)
 
 
-### Mongo.collection(collectionName \[, dbName \]):Collection
+### Mongo.collection(collectionName \[, options \]):Collection
 
-Name           | Type                 | Default           | Description
--------------- | -------------------- | ----------------- | ------------
-collectionName | string               | -                 | Collection name
-dbName         | string               | MONGO_DB          | Database name
+Name           | Type                 | Default        | Description
+-------------- | -------------------- | -------------- | ------------
+collectionName | string               | -              | Collection name
+options        | object               | {}             | [See bellow](#options)
+
+
+#### options
+
+Name          | Type          | Default                  | Description
+------------- | ------------- | ------------------------ | ------------
+dbName        | string        | MONGO_DB                 | Database name
+...dbOptions  | spread        | [See bellow](#dbOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#db)
+
+
+##### dbOptions
+
+Name                    | Type         | Default    | Description
+----------------------- | ------------ | ---------- | ------------
+noListener              | boolean      | true       | See dbOptions the manual above
+returnNonCachedInstance | boolean      | true       | See dbOptions the manual above
 
 
 ## Usage
@@ -74,8 +90,7 @@ const Mongo = require('@tadashi/mongo-singleton')
     password: 'password'
   })
   const db = client.db('my_DB', {noListener: true, returnNonCachedInstance: true})
-  const collection = await _collection(db, 'users')
-  const users = await collection.find({name: 'Tadashi'}).toArray()
+  await db.dropDatabase()
   // more code...
 })()
 

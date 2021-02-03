@@ -64,9 +64,15 @@ async function conn(args = {}) {
 	return mongoSingleton[CLIENT_KEY]
 }
 
-async function collection(collectionName, dbName = MONGO_DB) {
+async function collection(collectionName, options = {}) {
+	const {dbName, ...dbOptions} = {
+		dbName: MONGO_DB,
+		noListener: true,
+		returnNonCachedInstance: true,
+		...options
+	}
 	const client = await conn()
-	const db = client.db(dbName, {noListener: true, returnNonCachedInstance: true})
+	const db = client.db(dbName, dbOptions)
 	const col = await _collection(db, collectionName)
 	return col
 }
