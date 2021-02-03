@@ -75,4 +75,6 @@ const Mongo = Object.create(null)
 Mongo.conn = conn
 Mongo.collection = collection
 
+Object.freeze(Mongo)
+
 module.exports = Mongo

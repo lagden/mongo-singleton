@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/mongo-singleton",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Simplifying MongoDB",
   "main": "index.js",
   "files": [
@@ -8,9 +8,9 @@
     "README.md"
   ],
   "scripts": {
-    "report": "nyc report --reporter=text-lcov | coveralls",
-    "coverage": "nyc --reporter=text-summary --reporter=lcov ava",
-    "pretest": "npx xo",
+    "precoverage": "xo",
+    "coverage": "nyc --reporter=text --reporter=lcov ava",
+    "pretest": "xo",
     "test": "ava"
   },
   "keywords": [
