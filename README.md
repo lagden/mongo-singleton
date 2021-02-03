@@ -46,8 +46,8 @@ args        | object               | {}                | [See bellow](#args)
 Name        | Type                 | Default           | Description
 ----------- | -------------------- | ----------------- | ------------
 url         | string               | MONGO_CONN        | [See the manual](https://docs.mongodb.com/manual/reference/connection-string/)
-user        | string               | MONGO_USER        | Database user to connect
-password    | string               | MONGO_PASS        | Database password to connect
+user        | string               | MONGO_USER        | Database user
+password    | string               | MONGO_PASS        | Database password
 options     | object               | {}                | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/mongoclientoptions.html)
 
 
@@ -73,8 +73,8 @@ const Mongo = require('@tadashi/mongo-singleton')
     user: 'user',
     password: 'password'
   })
-	const db = client.db('my_DB', {noListener: true, returnNonCachedInstance: true})
-	const collection = await _collection(db, 'users')
+  const db = client.db('my_DB', {noListener: true, returnNonCachedInstance: true})
+  const collection = await _collection(db, 'users')
   const users = await collection.find({name: 'Tadashi'}).toArray()
   // more code...
 })()
