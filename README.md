@@ -71,8 +71,8 @@ dbName        | string        | MONGO_DB                 | Database name
 
 Name                    | Type         | Default    | Description
 ----------------------- | ------------ | ---------- | ------------
-noListener              | boolean      | true       | See dbOptions the manual above
-returnNonCachedInstance | boolean      | true       | See dbOptions the manual above
+noListener              | boolean      | true       | -
+returnNonCachedInstance | boolean      | true       | -
 
 
 ## Usage
