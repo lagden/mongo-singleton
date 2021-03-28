@@ -22,7 +22,7 @@ const mongoSingleton = Object.create(null)
 
 function _collection(db, collectionName) {
 	return new Promise((resolve, reject) => {
-		db.collection(collectionName, {w: 1}, (error, collection) => {
+		db.collection(collectionName, {writeConcern: {w: 1, j: true}}, (error, collection) => {
 			if (error) {
 				reject(error)
 			} else {
@@ -49,6 +49,10 @@ async function conn(args = {}) {
 		authSource,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		writeConcern: {
+			w: 1,
+			j: true
+		},
 		...options
 	}
 

@@ -6,13 +6,11 @@ const test = require('ava')
 const {MongoMemoryServer} = require('mongodb-memory-server')
 const Mongo = require('..')
 
-// const mongod = new MongoMemoryServer({
-// 	binary: {
-// 		version: '4.0.6'
-// 	}
-// })
-
-const mongod = new MongoMemoryServer()
+const mongod = new MongoMemoryServer({
+	binary: {
+		version: '4.4.0'
+	}
+})
 
 test.after(async () => {
 	await mongod.stop()
@@ -24,7 +22,7 @@ async function _collections(client, _db) {
 }
 
 test('db', async t => {
-	const mongoConn = await mongod.getConnectionString()
+	const mongoConn = await mongod.getUri()
 	const mongoDB = await mongod.getDbName()
 	const client = await Mongo.conn({url: mongoConn})
 	const db = await client.db(mongoDB, {noListener: true, returnNonCachedInstance: true})
@@ -46,7 +44,7 @@ test('db', async t => {
 })
 
 test('collection', async t => {
-	const mongoConn = await mongod.getConnectionString()
+	const mongoConn = await mongod.getUri()
 	const mongoDB = await mongod.getDbName()
 	await Mongo.conn({url: mongoConn})
 	const collection = await Mongo.collection('auth', mongoDB)

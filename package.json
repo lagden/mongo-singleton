@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/mongo-singleton",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Simplifying MongoDB",
   "main": "index.js",
   "files": [
@@ -25,19 +25,25 @@
     "node": ">=10.0.0"
   },
   "peerDependencies": {
-    "mongodb": ">=3.2.5"
+    "mongodb": ">= 3.6.* < 4"
   },
   "devDependencies": {
-    "ava": "3.12.1",
+    "ava": "3.15.0",
     "coveralls": "3.1.0",
-    "mongodb-memory-server": "6.7.5",
+    "mongodb": "3.6.5",
+    "mongodb-memory-server": "6.9.6",
     "nyc": "15.1.0",
-    "xo": "0.33.1"
+    "xo": "0.38.2"
   },
   "xo": {
     "envs": [
       "node"
     ],
     "semicolon": false
+  },
+  "ava": {
+    "nodeArguments": [
+      "--trace-warnings"
+    ]
   }
 }
