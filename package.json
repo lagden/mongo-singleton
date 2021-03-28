@@ -8,10 +8,10 @@
     "README.md"
   ],
   "scripts": {
-    "report": "nyc report --reporter=text-lcov | coveralls",
-    "coverage": "nyc --reporter=text-summary --reporter=lcov ava",
-    "pretest": "npx xo",
-    "test": "ava"
+    "precoverage": "xo",
+    "coverage": "nyc --reporter=text --reporter=lcov ava",
+    "pretest": "xo",
+    "test": "ava -t"
   },
   "keywords": [
     "mongo",
@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "ava": "3.15.0",
-    "coveralls": "3.1.0",
     "mongodb": "3.6.5",
     "mongodb-memory-server": "6.9.6",
     "nyc": "15.1.0",

@@ -4,11 +4,15 @@
 
 const test = require('ava')
 const {MongoMemoryServer} = require('mongodb-memory-server')
+const {ObjectID} = require('mongodb')
 const Mongo = require('..')
 
 const mongod = new MongoMemoryServer({
 	binary: {
 		version: '4.4.0'
+	},
+	instance: {
+		storageEngine: 'wiredTiger'
 	}
 })
 
@@ -40,14 +44,17 @@ test('db', async t => {
 	}
 
 	t.true(Array.isArray(databases))
-	t.is(databases.length, 3)
 })
 
 test('collection', async t => {
 	const mongoConn = await mongod.getUri()
-	const mongoDB = await mongod.getDbName()
 	await Mongo.conn({url: mongoConn})
-	const collection = await Mongo.collection('auth', mongoDB)
-	t.is(collection.dbName, mongoDB)
-	t.is(collection.collectionName, 'auth')
+	const collection = await Mongo.collection('collection_test', {dbName: 'db_test'})
+	t.is(collection.dbName, 'db_test')
+	t.is(collection.collectionName, 'collection_test')
+})
+
+test('valueOf', t => {
+	let objectID = ObjectID.createFromTime(Date.now())
+	t.is(typeof objectID.valueOf(), 'string')
 })
