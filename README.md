@@ -23,7 +23,9 @@ $ npm i -S @tadashi/mongo-singleton
 ```
 
 
-## Environment variables available
+## API
+
+### Environment variables available
 
 - MONGO_CONN
 - MONGO_DB
@@ -32,22 +34,84 @@ $ npm i -S @tadashi/mongo-singleton
 - MONGO_AUTHSOURCE
 - MONGO_POOL_SIZE = 10
 
+### Mongo.conn( \[args\]):MongoClient
+
+Name        | Type      | Default           | Description
+----------- | --------- | ----------------- | ------------
+args        | object    | {}                | [See bellow](#args)
+
+
+#### args
+
+Name        | Type      | Default           | Description
+----------- | --------- | ----------------- | ------------
+url         | string    | MONGO_CONN        | [See the manual](https://docs.mongodb.com/manual/reference/connection-string/)
+user        | string    | MONGO_USER        | Database user
+password    | string    | MONGO_PASS        | Database password
+options     | object    | {}                | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#.connect)
+
+
+### Mongo.collection(collectionName \[, options \]):Collection
+
+Name           | Type      | Default        | Description
+-------------- | --------- | -------------- | ------------
+collectionName | string    | -              | Collection name
+options        | object    | {}             | [See bellow](#options)
+
+
+#### options
+
+Name          | Type      | Default                  | Description
+------------- | --------- | ------------------------ | ------------
+dbName        | string    | MONGO_DB                 | Database name
+...dbOptions  | spread    | [See bellow](#dbOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#db)
+
+
+##### dbOptions
+
+Name                    | Type      | Default    | Description
+----------------------- | --------- | ---------- | ------------
+noListener              | boolean   | true       | -
+returnNonCachedInstance | boolean   | true       | -
+
 
 ## Usage
 
+**Example A:**
+
 ```js
-// This way, you must setup the environment variables before start the app
-// - MONGO_CONN
-// - MONGO_DB
+
 const Mongo = require('@tadashi/mongo-singleton')
 
 ;(async () => {
-  // will return a collection if exists or create new one
-  const collection = await Mongo.collection('users')
-  const users = collection.find({name: 'Lucas'}).toArray()
+  const client = await Mongo.conn({
+    url: 'mongodb://mongodb.example.com:27017',
+    user: 'user',
+    password: 'password'
+  })
+  const db = client.db('my_DB', {noListener: true, returnNonCachedInstance: true})
+  await db.dropDatabase()
   // more code...
-})
+})()
+```
 
+
+**Example B:**
+
+```js
+// Set the environment variables before start the application
+// - MONGO_CONN
+// - MONGO_DB
+// - MONGO_USER
+// - ...
+const Mongo = require('@tadashi/mongo-singleton')
+
+;(async () => {
+  // will return the collection if exists or create new one
+  const collection = await Mongo.collection('users')
+  const users = await collection.find({name: 'Tadashi'}).toArray()
+  // more code...
+})()
 ```
 
 
