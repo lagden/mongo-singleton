@@ -55,6 +55,6 @@ test('collection', async t => {
 })
 
 test('valueOf', t => {
-	let objectID = ObjectID.createFromTime(Date.now())
+	const objectID = ObjectID.createFromTime(Date.now())
 	t.is(typeof objectID.valueOf(), 'string')
 })
