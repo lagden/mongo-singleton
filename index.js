@@ -20,18 +20,6 @@ const {
 const CLIENT_KEY = Symbol.for('mongo.client')
 const mongoSingleton = Object.create(null)
 
-function _collection(db, collectionName) {
-	return new Promise((resolve, reject) => {
-		db.collection(collectionName, {writeConcern: {w: 1, j: true}}, (error, collection) => {
-			if (error) {
-				reject(error)
-			} else {
-				resolve(collection)
-			}
-		})
-	})
-}
-
 async function conn(args = {}) {
 	const {
 		url = MONGO_CONN,
@@ -69,16 +57,21 @@ async function conn(args = {}) {
 }
 
 async function collection(collectionName, options = {}) {
-	const {dbName, ...dbOptions} = {
-		dbName: MONGO_DB,
-		noListener: true,
-		returnNonCachedInstance: true,
-		...options
-	}
+	const {
+		dbName = MONGO_DB,
+		dbOptions = {
+			noListener: true,
+			returnNonCachedInstance: true
+		},
+		collectionOptions = {
+			writeConcern: {w: 1},
+			strict: false
+		}
+	} = options
+
 	const client = await conn()
 	const db = client.db(dbName, dbOptions)
-	const col = await _collection(db, collectionName)
-	return col
+	return db.collection(collectionName, collectionOptions)
 }
 
 const Mongo = Object.create(null)

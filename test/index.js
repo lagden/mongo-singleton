@@ -49,9 +49,13 @@ test('db', async t => {
 test('collection', async t => {
 	const mongoConn = await mongod.getUri()
 	await Mongo.conn({url: mongoConn})
-	const collection = await Mongo.collection('collection_test', {dbName: 'db_test'})
-	t.is(collection.dbName, 'db_test')
-	t.is(collection.collectionName, 'collection_test')
+	const collection1 = await Mongo.collection('collection_test_same', {dbName: 'db_test'})
+	const collection2 = await Mongo.collection('collection_test_same', {dbName: 'db_test'})
+	t.is(collection1.dbName, 'db_test')
+	t.is(collection1.collectionName, 'collection_test_same')
+	t.is(collection2.dbName, 'db_test')
+	t.is(collection2.collectionName, 'collection_test_same')
+	t.false(collection1 === collection2)
 })
 
 test('valueOf', t => {

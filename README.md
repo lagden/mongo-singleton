@@ -61,10 +61,11 @@ options        | object    | {}             | [See bellow](#options)
 
 #### options
 
-Name          | Type      | Default                  | Description
-------------- | --------- | ------------------------ | ------------
-dbName        | string    | MONGO_DB                 | Database name
-...dbOptions  | spread    | [See bellow](#dbOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#db)
+Name              | Type      | Default                          | Description
+-------------     | --------- | ------------------------         | ------------
+dbName            | string    | MONGO_DB                         | Database name
+dbOptions         | object    | [See bellow](#dbOptions)         | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#db)
+collectionOptions | object    | [See bellow](#collectionOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/Db.html#collection)
 
 
 ##### dbOptions
@@ -73,6 +74,13 @@ Name                    | Type      | Default    | Description
 ----------------------- | --------- | ---------- | ------------
 noListener              | boolean   | true       | -
 returnNonCachedInstance | boolean   | true       | -
+
+##### collectionOptions
+
+Name                    | Type      | Default    | Description
+----------------------- | --------- | ---------- | ------------
+writeConcern            | object    | {w: 1}     | -
+strict                  | boolean   | false      | -
 
 
 ## Usage
