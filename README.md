@@ -2,7 +2,7 @@
 
 [![NPM version][npm-img]][npm]
 [![Node.js CI][ci-img]][ci]
-[![XO code style][xo-img]][xo]
+[![Coverage Status][coveralls-img]][coveralls]
 
 
 [npm-img]:         https://img.shields.io/npm/v/@tadashi/mongo-singleton.svg
