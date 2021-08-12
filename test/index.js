@@ -34,7 +34,7 @@ test.after(async () => {
 })
 
 async function _collections(client, _db) {
-	const db = await client.db(_db, {noListener: true, returnNonCachedInstance: true})
+	const db = await client.db(_db)
 	return db.collections()
 }
 
@@ -42,7 +42,7 @@ test('db', async t => {
 	const mongoConn = await mongod.getUri()
 	const mongoDB = await mongod.instanceInfo.dbName
 	const client = await Mongo.conn({url: mongoConn})
-	const db = await client.db(mongoDB, {noListener: true, returnNonCachedInstance: true})
+	const db = await client.db(mongoDB)
 	const admin = db.admin()
 	const {databases} = await admin.listDatabases()
 

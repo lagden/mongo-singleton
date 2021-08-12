@@ -87,7 +87,7 @@ const client = await Mongo.conn({
   username: 'username',
   password: 'password'
 })
-const db = client.db('my_DB', {noListener: true, returnNonCachedInstance: true})
+const db = client.db('my_DB')
 await db.dropDatabase()
 // more code...
 ```
