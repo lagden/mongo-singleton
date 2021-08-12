@@ -1,7 +1,0 @@
-language: node_js
-node_js:
-  - "12"
-  - "14"
-script: "npm test"
-# script: "npx xo;npx nyc ava"
-# after_script: "npm i coveralls nyc;npm run report"

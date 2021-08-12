@@ -1,23 +1,36 @@
-/* eslint capitalized-comments: 0 */
+import test from 'ava'
+import {MongoMemoryServer} from 'mongodb-memory-server'
+import {ObjectId} from 'mongodb'
+import Mongo from '../src/mongo.js'
 
-'use strict'
+// Apenas um workaround
+// import {createRequire} from 'module'
+// const require = createRequire(import.meta.url)
+// const {ObjectId} = require('mongodb')
 
-const test = require('ava')
-const {MongoMemoryServer} = require('mongodb-memory-server')
-const {ObjectID} = require('mongodb')
-const Mongo = require('..')
-
-const mongod = new MongoMemoryServer({
+const mongod = await MongoMemoryServer.create({
 	binary: {
-		version: '4.4.0'
+		version: '4.4.0',
 	},
 	instance: {
-		storageEngine: 'wiredTiger'
-	}
+		storageEngine: 'wiredTiger',
+	},
+})
+
+const mongodAuth = await MongoMemoryServer.create({
+	auth: {},
+	binary: {
+		version: '4.4.0',
+	},
+	instance: {
+		auth: true,
+		storageEngine: 'wiredTiger',
+	},
 })
 
 test.after(async () => {
 	await mongod.stop()
+	await mongodAuth.stop()
 })
 
 async function _collections(client, _db) {
@@ -27,7 +40,7 @@ async function _collections(client, _db) {
 
 test('db', async t => {
 	const mongoConn = await mongod.getUri()
-	const mongoDB = await mongod.getDbName()
+	const mongoDB = await mongod.instanceInfo.dbName
 	const client = await Mongo.conn({url: mongoConn})
 	const db = await client.db(mongoDB, {noListener: true, returnNonCachedInstance: true})
 	const admin = db.admin()
@@ -44,6 +57,7 @@ test('db', async t => {
 	}
 
 	t.true(Array.isArray(databases))
+	// t.snapshot(databases)
 })
 
 test('collection', async t => {
@@ -59,6 +73,16 @@ test('collection', async t => {
 })
 
 test('valueOf', t => {
-	const objectID = ObjectID.createFromTime(Date.now())
-	t.is(typeof objectID.valueOf(), 'string')
+	const objectId = ObjectId.createFromTime(Date.now() / 1000)
+	t.is(typeof objectId.valueOf(), 'string')
+})
+
+test('auth', async t => {
+	const mongoConn = await mongodAuth.getUri()
+	await Mongo.conn({
+		url: mongoConn,
+		username: mongodAuth.auth.customRootName,
+		password: mongodAuth.auth.customRootPwd,
+	})
+	t.true(true)
 })

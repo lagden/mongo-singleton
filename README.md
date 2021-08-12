@@ -7,10 +7,10 @@
 
 [npm-img]:         https://img.shields.io/npm/v/@tadashi/mongo-singleton.svg
 [npm]:             https://www.npmjs.com/package/@tadashi/mongo-singleton
-[ci-img]:          https://github.com/lagden/mongo-singleton/workflows/Node.js%20CI/badge.svg
-[ci]:              https://github.com/lagden/mongo-singleton/actions?query=workflow%3A%22Node.js+CI%22
-[xo-img]:          https://img.shields.io/badge/code_style-XO-5ed9c7.svg
-[xo]:              https://github.com/sindresorhus/xo
+[ci-img]:          https://github.com/lagden/mongo-singleton/actions/workflows/nodejs.yml/badge.svg
+[ci]:              https://github.com/lagden/mongo-singleton/actions/workflows/nodejs.yml
+[coveralls-img]:   https://coveralls.io/repos/github/lagden/mongo-singleton/badge.svg?branch=master
+[coveralls]:       https://coveralls.io/github/lagden/mongo-singleton?branch=master
 
 -----
 
@@ -43,12 +43,12 @@ args        | object    | {}                | [See bellow](#args)
 
 #### args
 
-Name        | Type      | Default           | Description
------------ | --------- | ----------------- | ------------
-url         | string    | MONGO_CONN        | [See the manual](https://docs.mongodb.com/manual/reference/connection-string/)
-user        | string    | MONGO_USER        | Database user
-password    | string    | MONGO_PASS        | Database password
-options     | object    | {}                | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#.connect)
+Name        | Type      | Default                        | Description
+----------- | --------- | ------------------------------ | ------------
+url         | string    | MONGO_CONN                     | [See the manual](https://docs.mongodb.com/manual/reference/connection-string/)
+username    | string    | MONGO_USER                     | Database user
+password    | string    | MONGO_PASS                     | Database password
+options     | object    | {maxPoolSize: MONGO_POOL_SIZE} | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/mongoclientoptions.html)
 
 
 ### Mongo.collection(collectionName \[, options \]):Collection
@@ -62,25 +62,17 @@ options        | object    | {}             | [See bellow](#options)
 #### options
 
 Name              | Type      | Default                          | Description
--------------     | --------- | ------------------------         | ------------
+-------------     | --------- | -------------------------------- | ------------
 dbName            | string    | MONGO_DB                         | Database name
-dbOptions         | object    | [See bellow](#dbOptions)         | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/MongoClient.html#db)
-collectionOptions | object    | [See bellow](#collectionOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/3.6/api/Db.html#collection)
+dbOptions         | object    | {}                               | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/dboptions.html)
+collectionOptions | object    | [See bellow](#collectionOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/collectionoptions.html)
 
-
-##### dbOptions
-
-Name                    | Type      | Default    | Description
------------------------ | --------- | ---------- | ------------
-noListener              | boolean   | true       | -
-returnNonCachedInstance | boolean   | true       | -
 
 ##### collectionOptions
 
 Name                    | Type      | Default    | Description
 ----------------------- | --------- | ---------- | ------------
 writeConcern            | object    | {w: 1}     | -
-strict                  | boolean   | false      | -
 
 
 ## Usage
@@ -88,19 +80,16 @@ strict                  | boolean   | false      | -
 **Example A:**
 
 ```js
+import Mongo from '@tadashi/mongo-singleton'
 
-const Mongo = require('@tadashi/mongo-singleton')
-
-;(async () => {
-  const client = await Mongo.conn({
-    url: 'mongodb://mongodb.example.com:27017',
-    user: 'user',
-    password: 'password'
-  })
-  const db = client.db('my_DB', {noListener: true, returnNonCachedInstance: true})
-  await db.dropDatabase()
-  // more code...
-})()
+const client = await Mongo.conn({
+  url: 'mongodb://mongodb.example.com:27017',
+  username: 'username',
+  password: 'password'
+})
+const db = client.db('my_DB', {noListener: true, returnNonCachedInstance: true})
+await db.dropDatabase()
+// more code...
 ```
 
 
@@ -112,14 +101,12 @@ const Mongo = require('@tadashi/mongo-singleton')
 // - MONGO_DB
 // - MONGO_USER
 // - ...
-const Mongo = require('@tadashi/mongo-singleton')
+import Mongo from '@tadashi/mongo-singleton'
 
-;(async () => {
-  // will return the collection if exists or create new one
-  const collection = await Mongo.collection('users')
-  const users = await collection.find({name: 'Tadashi'}).toArray()
-  // more code...
-})()
+// will return the collection if exists or create new one
+const collection = await Mongo.collection('users')
+const users = await collection.find({name: 'Tadashi'}).toArray()
+// more code...
 ```
 
 

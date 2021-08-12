@@ -1,12 +1,10 @@
-'use strict'
-
-const {MongoClient, ObjectID} = require('mongodb')
+import {MongoClient, ObjectId} from 'mongodb'
 
 function valueOf() {
 	return this.toString()
 }
 
-ObjectID.prototype.valueOf = valueOf
+ObjectId.prototype.valueOf = valueOf
 
 const {
 	MONGO_CONN,
@@ -14,7 +12,7 @@ const {
 	MONGO_USER,
 	MONGO_PASS,
 	MONGO_AUTHSOURCE: authSource,
-	MONGO_POOL_SIZE: poolSize = 10
+	MONGO_POOL_SIZE: maxPoolSize = 10,
 } = process.env
 
 const CLIENT_KEY = Symbol.for('mongo.client')
@@ -23,9 +21,9 @@ const mongoSingleton = Object.create(null)
 async function conn(args = {}) {
 	const {
 		url = MONGO_CONN,
-		user = MONGO_USER,
+		username = MONGO_USER,
 		password = MONGO_PASS,
-		options = {}
+		options = {},
 	} = args
 
 	if (mongoSingleton[CLIENT_KEY]) {
@@ -33,21 +31,15 @@ async function conn(args = {}) {
 	}
 
 	const mongoOptions = {
-		poolSize,
+		maxPoolSize,
 		authSource,
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		writeConcern: {
-			w: 1,
-			j: true
-		},
-		...options
+		...options,
 	}
 
-	if (user && password) {
+	if (username && password) {
 		mongoOptions.auth = {
-			user,
-			password
+			username,
+			password,
 		}
 	}
 
@@ -59,14 +51,10 @@ async function conn(args = {}) {
 async function collection(collectionName, options = {}) {
 	const {
 		dbName = MONGO_DB,
-		dbOptions = {
-			noListener: true,
-			returnNonCachedInstance: true
-		},
+		dbOptions = {},
 		collectionOptions = {
 			writeConcern: {w: 1},
-			strict: false
-		}
+		},
 	} = options
 
 	const client = await conn()
@@ -80,4 +68,4 @@ Mongo.collection = collection
 
 Object.freeze(Mongo)
 
-module.exports = Mongo
+export default Mongo
