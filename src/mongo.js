@@ -1,3 +1,4 @@
+import process from 'node:process'
 import {MongoClient, ObjectId} from 'mongodb'
 
 function valueOf() {
@@ -11,7 +12,7 @@ const {
 	MONGO_DB,
 	MONGO_USER,
 	MONGO_PASS,
-	MONGO_AUTHSOURCE: authSource,
+	MONGO_AUTHSOURCE,
 	MONGO_POOL_SIZE: maxPoolSize = 10,
 } = process.env
 
@@ -23,6 +24,7 @@ async function conn(args = {}) {
 		url = MONGO_CONN,
 		username = MONGO_USER,
 		password = MONGO_PASS,
+		authSource = MONGO_AUTHSOURCE,
 		options = {},
 	} = args
 
@@ -32,8 +34,11 @@ async function conn(args = {}) {
 
 	const mongoOptions = {
 		maxPoolSize,
-		authSource,
 		...options,
+	}
+
+	if (authSource) {
+		mongoOptions.authSource = authSource
 	}
 
 	if (username && password) {

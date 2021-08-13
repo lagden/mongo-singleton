@@ -40,7 +40,7 @@ async function _collections(client, _db) {
 
 test('db', async t => {
 	const mongoConn = await mongod.getUri()
-	const mongoDB = await mongod.instanceInfo.dbName
+	const mongoDB = mongod.instanceInfo.dbName
 	const client = await Mongo.conn({url: mongoConn})
 	const db = await client.db(mongoDB)
 	const admin = db.admin()
@@ -79,10 +79,12 @@ test('valueOf', t => {
 
 test('auth', async t => {
 	const mongoConn = await mongodAuth.getUri()
+	console.log(mongodAuth)
 	await Mongo.conn({
 		url: mongoConn,
 		username: mongodAuth.auth.customRootName,
 		password: mongodAuth.auth.customRootPwd,
+		authSource: 'admin',
 	})
 	t.true(true)
 })
