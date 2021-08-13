@@ -48,6 +48,7 @@ Name        | Type      | Default                        | Description
 url         | string    | MONGO_CONN                     | [See the manual](https://docs.mongodb.com/manual/reference/connection-string/)
 username    | string    | MONGO_USER                     | Database user
 password    | string    | MONGO_PASS                     | Database password
+authSource  | string    | MONGO_AUTHSOURCE               | Authentication Database
 options     | object    | {maxPoolSize: MONGO_POOL_SIZE} | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/mongoclientoptions.html)
 
 
