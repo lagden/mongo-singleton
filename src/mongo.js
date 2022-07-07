@@ -1,4 +1,5 @@
 import process from 'node:process'
+import readSecrets from '@tadashi/docker-secrets'
 import {MongoClient, ObjectId} from 'mongodb'
 
 function valueOf() {
@@ -20,7 +21,7 @@ const CLIENT_KEY = Symbol.for('mongo.client')
 const mongoSingleton = Object.create(null)
 
 async function conn(args = {}) {
-	const {
+	let {
 		url = MONGO_CONN,
 		username = MONGO_USER,
 		password = MONGO_PASS,
@@ -42,6 +43,7 @@ async function conn(args = {}) {
 	}
 
 	if (username && password) {
+		password = await readSecrets(password)
 		mongoOptions.auth = {
 			username,
 			password,

@@ -10,7 +10,7 @@ import Mongo from '../src/mongo.js'
 
 const mongod = await MongoMemoryServer.create({
 	binary: {
-		version: '4.4.0',
+		version: '5.3.2',
 	},
 	instance: {
 		storageEngine: 'wiredTiger',
@@ -20,7 +20,7 @@ const mongod = await MongoMemoryServer.create({
 const mongodAuth = await MongoMemoryServer.create({
 	auth: {},
 	binary: {
-		version: '4.4.0',
+		version: '5.3.2',
 	},
 	instance: {
 		auth: true,
@@ -79,7 +79,7 @@ test('valueOf', t => {
 
 test('auth', async t => {
 	const mongoConn = await mongodAuth.getUri()
-	console.log(mongodAuth)
+	// console.log(mongodAuth)
 	await Mongo.conn({
 		url: mongoConn,
 		username: mongodAuth.auth.customRootName,
