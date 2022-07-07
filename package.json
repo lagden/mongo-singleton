@@ -1,6 +1,6 @@
 {
   "name": "@tadashi/mongo-singleton",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "description": "Simplifying MongoDB",
   "type": "module",
   "main": "src/mongo.js",
@@ -28,7 +28,7 @@
     "mongodb": ">= 4 < 5"
   },
   "dependencies": {
-    "@tadashi/docker-secrets": "1.0.0"
+    "@tadashi/docker-secrets": "1.0.1"
   },
   "devDependencies": {
     "ava": "4.3.0",
