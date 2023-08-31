@@ -45,11 +45,11 @@ args        | object    | {}                | [See bellow](#args)
 
 Name        | Type      | Default                        | Description
 ----------- | --------- | ------------------------------ | ------------
-url         | string    | MONGO_CONN                     | [See the manual](https://docs.mongodb.com/manual/reference/connection-string/)
+url         | string    | MONGO_CONN                     | [See the manual](https://www.mongodb.com/docs/manual/reference/connection-string/)
 username    | string    | MONGO_USER                     | Database user
 password    | string    | MONGO_PASS                     | Database password
 authSource  | string    | MONGO_AUTHSOURCE               | Authentication Database
-options     | object    | {maxPoolSize: MONGO_POOL_SIZE} | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/mongoclientoptions.html)
+options     | object    | {maxPoolSize: MONGO_POOL_SIZE} | [See the manual](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/MongoClientOptions.html)
 
 
 ### Mongo.collection(collectionName \[, options \]):Collection
@@ -65,8 +65,8 @@ options        | object    | {}             | [See bellow](#options)
 Name              | Type      | Default                          | Description
 -------------     | --------- | -------------------------------- | ------------
 dbName            | string    | MONGO_DB                         | Database name
-dbOptions         | object    | {}                               | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/dboptions.html)
-collectionOptions | object    | [See bellow](#collectionOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/4.0/interfaces/collectionoptions.html)
+dbOptions         | object    | {}                               | [See the manual](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/DbOptions.html)
+collectionOptions | object    | [See bellow](#collectionOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/CollectionOptions.html)
 
 
 ##### collectionOptions
