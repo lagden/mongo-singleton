@@ -77,6 +77,8 @@ async function createConnectionOptions(args = {}) {
 			password: await readSecrets(password),
 		}
 	}
+
+	return connectionOptions
 }
 
 /**
@@ -96,6 +98,10 @@ async function conn(args = {}) {
 	} = args
 
 	const connectionOptions = await createConnectionOptions(restArgs)
+	
+	debug.info('conn | url', url)
+	debug.info('conn | connectionOptions', connectionOptions)
+	
 	const client = await MongoClient.connect(url, connectionOptions)
 
 	mongoSingleton[CLIENT_KEY] = client
