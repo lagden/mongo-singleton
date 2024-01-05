@@ -1,0 +1,45 @@
+{
+  "name": "@tadashi/mongo-singleton",
+  "version": "6.0.2",
+  "description": "Simplifying MongoDB",
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./src/mongo.js",
+    "./src/debug.js": "./src/debug.js"
+  },
+  "scripts": {
+    "eslint": "eslint --ignore-path .gitignore .",
+    "pretest": "npm run eslint",
+    "test": "env DEBUG=@tadashi/mongo-singleton:* c8 --reporter=text --reporter=text-summary --reporter=lcovonly --reporter=cobertura node --test test/*.spec.js"
+  },
+  "keywords": [
+    "mongo",
+    "conn",
+    "collection",
+    "singleton"
+  ],
+  "author": "Thiago Lagden",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "@tadashi/docker-secrets": "*",
+    "mongodb": ">= 4 < 7"
+  },
+  "dependencies": {
+    "debug": "4.3.4"
+  },
+  "devDependencies": {
+    "c8": "9.0.0",
+    "eslint": "8.56.0",
+    "eslint-plugin-sonarjs": "0.23.0",
+    "eslint-plugin-unicorn": "50.0.1",
+    "mongodb-memory-server": "9.1.4"
+  }
+}
