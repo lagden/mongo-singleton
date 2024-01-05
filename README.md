@@ -49,7 +49,7 @@ url         | string    | MONGO_CONN                     | [See the manual](http
 username    | string    | MONGO_USER                     | Database user
 password    | string    | MONGO_PASS                     | Database password
 authSource  | string    | MONGO_AUTHSOURCE               | Authentication Database
-options     | object    | {maxPoolSize: MONGO_POOL_SIZE} | [See the manual](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/MongoClientOptions.html)
+options     | object    | {maxPoolSize: MONGO_POOL_SIZE} | [See the manual](https://mongodb.github.io/node-mongodb-native/6.3/interfaces/MongoClientOptions.html)
 
 
 ### Mongo.collection(collectionName \[, options \]):Collection
@@ -65,8 +65,8 @@ options        | object    | {}             | [See bellow](#options)
 Name              | Type      | Default                          | Description
 -------------     | --------- | -------------------------------- | ------------
 dbName            | string    | MONGO_DB                         | Database name
-dbOptions         | object    | {}                               | [See the manual](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/DbOptions.html)
-collectionOptions | object    | [See bellow](#collectionOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/6.0/interfaces/CollectionOptions.html)
+dbOptions         | object    | {}                               | [See the manual](https://mongodb.github.io/node-mongodb-native/6.3/interfaces/DbOptions.html)
+collectionOptions | object    | [See bellow](#collectionOptions) | [See the manual](https://mongodb.github.io/node-mongodb-native/6.3/interfaces/CollectionOptions.html)
 
 
 ##### collectionOptions

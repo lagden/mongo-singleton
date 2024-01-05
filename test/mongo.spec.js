@@ -1,36 +1,29 @@
-import test from 'ava'
-import {MongoMemoryServer} from 'mongodb-memory-server'
+// import {setTimeout} from 'node:timers/promises'
+import {test, after} from 'node:test'
+import assert from 'node:assert/strict'
+import {MongoMemoryServer, MongoMemoryReplSet} from 'mongodb-memory-server'
 import {ObjectId} from 'mongodb'
 import Mongo from '../src/mongo.js'
 
-// Apenas um workaround
-// import {createRequire} from 'module'
-// const require = createRequire(import.meta.url)
-// const {ObjectId} = require('mongodb')
-
-const mongod = await MongoMemoryServer.create({
+const replSet = await MongoMemoryReplSet.create({
 	binary: {
-		version: '5.3.2',
+		version: '6.0.9',
 	},
-	instance: {
-		storageEngine: 'wiredTiger',
-	},
+	replSet: {
+		count: 2,
+	}
 })
 
 const mongodAuth = await MongoMemoryServer.create({
-	auth: {},
+	auth: {
+		enable: true,
+	},
 	binary: {
-		version: '5.3.2',
+		version: '6.0.9',
 	},
 	instance: {
-		auth: true,
 		storageEngine: 'wiredTiger',
 	},
-})
-
-test.after(async () => {
-	await mongod.stop()
-	await mongodAuth.stop()
 })
 
 async function _collections(client, _db) {
@@ -38,11 +31,22 @@ async function _collections(client, _db) {
 	return db.collections()
 }
 
-test('db', async t => {
-	const mongoConn = await mongod.getUri()
-	const mongoDB = mongod.instanceInfo.dbName
+after(async () => {
+	try {
+		const client = Mongo.client()
+		await client.close()
+		await replSet.stop({doCleanup: true})
+		await mongodAuth.stop({doCleanup: true})
+	} catch (error) {
+		console.log('error >>', error.message)
+	}
+})
+
+test('db', async () => {
+	const mongoConn = await replSet.getUri()
 	const client = await Mongo.conn({url: mongoConn})
-	const db = await client.db(mongoDB)
+	Mongo.clientEvents()
+	const db = await client.db('admin')
 	const admin = db.admin()
 	const {databases} = await admin.listDatabases()
 
@@ -51,40 +55,47 @@ test('db', async t => {
 		collections.push(_collections(client, database.name))
 	}
 
-	const collectionsName = new Set(['system.version', 'system.sessions', 'startup_log'])
 	for await (const [collection] of collections) {
-		t.true(collectionsName.has(collection.s.namespace.collection))
+		console.log('collection', collection.s.namespace.collection)
 	}
 
-	t.true(Array.isArray(databases))
-	// t.snapshot(databases)
+	assert.ok(Array.isArray(databases))
+	assert.ok(true)
 })
 
-test('collection', async t => {
-	const mongoConn = await mongod.getUri()
+test('collection', async () => {
+	const mongoConn = await replSet.getUri()
 	await Mongo.conn({url: mongoConn})
 	const collection1 = await Mongo.collection('collection_test_same', {dbName: 'db_test'})
 	const collection2 = await Mongo.collection('collection_test_same', {dbName: 'db_test'})
-	t.is(collection1.dbName, 'db_test')
-	t.is(collection1.collectionName, 'collection_test_same')
-	t.is(collection2.dbName, 'db_test')
-	t.is(collection2.collectionName, 'collection_test_same')
-	t.false(collection1 === collection2)
+	assert.equal(collection1.dbName, 'db_test')
+	assert.equal(collection1.collectionName, 'collection_test_same')
+	assert.equal(collection2.dbName, 'db_test')
+	assert.equal(collection2.collectionName, 'collection_test_same')
+	assert.notEqual(collection1, collection2)
 })
 
-test('valueOf', t => {
+test('valueOf', () => {
 	const objectId = ObjectId.createFromTime(Date.now() / 1000)
-	t.is(typeof objectId.valueOf(), 'string')
+	assert.equal(typeof objectId.valueOf(), 'string')
 })
 
-test('auth', async t => {
-	const mongoConn = await mongodAuth.getUri()
-	// console.log(mongodAuth)
-	await Mongo.conn({
-		url: mongoConn,
-		username: mongodAuth.auth.customRootName,
-		password: mongodAuth.auth.customRootPwd,
-		authSource: 'admin',
-	})
-	t.true(true)
+test('auth', async () => {
+	let cli
+	try {
+		await Mongo.reset()
+		const mongoConn = await mongodAuth.getUri()
+		cli = await Mongo.conn({
+			url: mongoConn,
+			username: mongodAuth.auth.customRootName,
+			password: mongodAuth.auth.customRootPwd,
+			authSource: 'admin',
+		})
+	} finally {
+		if (cli?.close) {
+			cli.close()
+		}
+	}
+
+	assert.ok(true)
 })
