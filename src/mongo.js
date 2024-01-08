@@ -19,6 +19,7 @@ const {
 	MONGO_USER,
 	MONGO_PASS,
 	MONGO_AUTHSOURCE,
+	MONGO_DIRECT_CONNECTION: directConnection = false,
 	MONGO_POOL_SIZE: maxPoolSize = 10,
 } = process.env
 
@@ -58,6 +59,7 @@ async function createConnectionOptions(args = {}) {
 
 	const connectionOptions = {
 		compressors: ['zlib'],
+		directConnection,
 		connectTimeoutMS: 10_000,
 		maxIdleTimeMS: 30_000,
 		maxPoolSize,
